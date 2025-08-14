@@ -13,11 +13,11 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         DB::table('categories')->insert([
-            ['name' => 'Penerimaan Mahasiswa Baru'],
-            ['name' => 'Pembayaran Uang Kuliah'],
-            ['name' => 'SIAKAD'],
-            ['name' => 'E-Learning'],
-            ['name' => 'Perubahan Data Mahasiswa'],
+            ['name' => 'Penerimaan Mahasiswa Baru', 'slug' => 'pmb'],
+            ['name' => 'Pembayaran Uang Kuliah', 'slug' => 'pembayaran-uang-kuliah'],
+            ['name' => 'SIAKAD', 'slug' => 'siakad'],
+            ['name' => 'E-Learning', 'slug' => 'lms'],
+            ['name' => 'Perubahan Data Mahasiswa', 'slug' => 'pdm'],
         ]);
     }
 }

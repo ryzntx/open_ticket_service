@@ -103,10 +103,10 @@
         @if (!empty($ticket->attachments) && count($ticket->attachments) > 0)
             <div class="section-title">Lampiran:</div>
             <ul style="padding-left: 20px; margin: 0;">
-                @foreach ($ticket->attachments as $file)
+                @foreach ($ticket->attachments as $attach)
                     <li>
-                        <a class="attachment-link" href="{{ url('/storage/' . $file) }}" target="_blank">
-                            📎 {{ basename($file) }}
+                        <a class="attachment-link" href="{{ asset('storage/' . $attach->file_path) }}" target="_blank">
+                            📎 {{ __('Download Attachment') }}
                         </a>
                     </li>
                 @endforeach

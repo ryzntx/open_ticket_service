@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\TicketClosed;
 use App\Mail\TicketReplied;
 use App\Models\Ticket;
 use App\Models\TicketReply;
@@ -30,8 +31,8 @@ class TicketManagementController extends Controller
         if (request()->has('search') && request()->input('search') !== '') {
             $search = request()->input('search');
             $query->where(function ($q) use ($search) {
-                $q->where('code', 'like', '%'.$search.'%')
-                    ->orWhere('title', 'like', '%'.$search.'%');
+                $q->where('code', 'like', '%' . $search . '%')
+                    ->orWhere('title', 'like', '%' . $search . '%');
             });
         }
 
@@ -122,7 +123,7 @@ class TicketManagementController extends Controller
             // Notify the user via email
             Mail::to($ticket->sender_email)->send(new TicketReplied($ticket, $reply->message));
         } catch (\Exception $e) {
-            Log::error('Message creation failed: '.$e->getMessage());
+            Log::error('Message creation failed: ' . $e->getMessage());
 
             return redirect()->back()->with('error', Lang::get('Failed to send reply. Please try again.'));
         }
@@ -138,12 +139,15 @@ class TicketManagementController extends Controller
 
         try {
             $ticket->update(['status' => $status, 'closed_at' => now()]);
+
+            // Notify the user about the status change
+            Mail::to($ticket->sender_email)->send(new TicketClosed($ticket));
         } catch (\Exception $e) {
-            Log::error('Status update failed: '.$e->getMessage());
+            Log::error('Status update failed: ' . $e->getMessage());
 
             return redirect()->back()->with('error', Lang::get('Failed to update ticket status. Please try again.'));
         }
 
-        return redirect()->back()->with('success', Lang::get('Ticket status updated successfully to ').$status);
+        return redirect()->back()->with('success', Lang::get('Ticket status updated successfully to ') . $status);
     }
 }

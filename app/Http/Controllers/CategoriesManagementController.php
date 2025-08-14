@@ -34,12 +34,15 @@ class CategoriesManagementController extends Controller
     {
         $validate = $request->validate([
             'name' => 'required|string',
+            'slug' => 'required|string|unique:categories,slug',
+            'title_placeholder' => 'nullable|string',
+            'desc_placeholder' => 'nullable|string',
         ]);
 
         try {
             Category::create($validate);
         } catch (\Exception $e) {
-            Log::error('Failed to create category: '.$e->getMessage());
+            Log::error('Failed to create category: ' . $e->getMessage());
 
             return redirect()->back()->with('error', 'Failed to create category');
         }
@@ -70,12 +73,15 @@ class CategoriesManagementController extends Controller
     {
         $validate = $request->validate([
             'name' => 'required|string',
+            'slug' => 'required|string|unique:categories,slug,' . $category->id, // Ensure slug is unique except for the current category
+            'title_placeholder' => 'nullable|string',
+            'desc_placeholder' => 'nullable|string',
         ]);
 
         try {
             $category->update($validate);
         } catch (\Exception $e) {
-            Log::error('Failed to update category: '.$e->getMessage());
+            Log::error('Failed to update category: ' . $e->getMessage());
 
             return redirect()->back()->with('error', 'Failed to update category');
         }
@@ -96,7 +102,7 @@ class CategoriesManagementController extends Controller
         try {
             $category->delete();
         } catch (\Exception $e) {
-            Log::error('Failed to delete category: '.$e->getMessage());
+            Log::error('Failed to delete category: ' . $e->getMessage());
 
             return redirect()->back()->with('error', 'Failed to delete category');
         }

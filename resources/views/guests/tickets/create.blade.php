@@ -16,7 +16,7 @@
             <fieldset class="fieldset">
                 <legend class="fieldset-legend">{{ __('Sender Name') }}</legend>
                 <input required type="text" class="w-full validator input" name="sender_name"
-                    placeholder="{{ __('Type here') }}" />
+                    placeholder="{{ __('Type here') }}" value="{{ old('sender_name') }}"/>
                 <p class="label">{{ __('Required') }}</p>
                 @error('sender_name')
                     <p class="text-sm text-error">{{ $message }}</p>
@@ -26,19 +26,20 @@
             <fieldset class="fieldset">
                 <legend class="fieldset-legend">{{ __('Sender Email') }}</legend>
                 <input required type="email" class="w-full validator input" name="sender_email"
-                    placeholder="{{ __('Type here') }}" />
+                    placeholder="{{ __('Type here') }}" value="{{old('sender_email')}}" />
                 <p class="label">{{ __('Required') }}</p>
                 @error('sender_email')
                     <p class="text-sm text-error">{{ $message }}</p>
                 @enderror
             </fieldset>
 
+            {{-- Pilih Kategori --}}
             <fieldset class="fieldset">
                 <legend class="fieldset-legend">{{ __('Category') }}</legend>
                 <select id="category_id" name="category_id" class="w-full select validator">
                     <option value="">{{ __('Select category') }}</option>
                     @foreach ($categories as $cat)
-                        <option value="{{ $cat->id }}" {{ old('category_id') == $cat->id ? 'selected' : '' }}>
+                        <option @selected(request()->get('category') == $cat->slug) value="{{ $cat->id }}" @selected(old('category_id') == $cat->id)>
                             {{ $cat->name }}
                         </option>
                     @endforeach
@@ -68,8 +69,8 @@
 
             <fieldset class="fieldset">
                 <legend class="fieldset-legend">{{ __('Ticket Title') }}</legend>
-                <input required type="text" class="w-full validator input" name="title"
-                    placeholder="{{ __('Example: Failed login to SIAKAD') }}" />
+                <input required type="text" class="w-full validator input" name="title" id="title"
+                    placeholder="{{ __('Example: Failed login to SIAKAD') }}" value="{{old('title') ?? request()->get('title')}}" />
                 <p class="label">{{ __('Required') }}</p>
                 @error('title')
                     <p class="text-sm text-error">{{ $message }}</p>
@@ -79,7 +80,7 @@
             <fieldset class="fieldset">
                 <legend class="fieldset-legend">{{ __('Problem Description') }}</legend>
                 <textarea required name="description" id="description" class="w-full h-24 textarea validator"
-                    placeholder="{{ __("Example: Hello, I'am Rina Maharani - A1A250001, cannot log in to SIAKAD since yesterday. Error message: 'User not found'. Please help.") }}"></textarea>
+                    placeholder="{{ __("Example: Hello, I'am Rina Maharani - A1A250001, cannot log in to SIAKAD since yesterday. Error message: 'User not found'. Please help.") }}">{{old('description') ?? request()->get('desc')}}</textarea>
                 <p class="label">{{ __('Required') }}</p>
                 @error('description')
                     <p class="text-sm text-error">{{ $message }}</p>
@@ -99,7 +100,7 @@
             {{-- This component will handle the Turnstile captcha --}}
             {{-- show turnstile captcha when env is production --}}
             @if (config('app.env') === 'production')
-                <div class="flex items-center justify-center mt-4">
+                <div class="flex flex-col items-center justify-center mt-4">
                     <x-turnstile />
                     @error('cf-turnstile-response')
                         <p class="text-sm text-error">{{ $message }}</p>
@@ -113,5 +114,4 @@
             </button>
         </form>
     </div>
-
 </x-guest-layout>

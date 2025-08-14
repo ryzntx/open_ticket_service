@@ -21,6 +21,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>{{ __('Name') }}</th>
+                                <th>{{ __('Slug') }}</th>
                                 <th>{{ __('Action') }}</th>
                             </tr>
                         </thead>
@@ -29,6 +30,7 @@
                                 <tr>
                                     <th>{{ $loop->iteration }}</th>
                                     <td>{{ $category->name }}</td>
+                                    <td>{{ $category->slug }}</td>
                                     <td>
                                         <button onclick="edit_{{ $category->id }}_modal.showModal()"
                                             class="btn btn-primary">{{ __('Edit') }}</button>
@@ -73,6 +75,33 @@
                         <p class="text-sm text-error">{{ $message }}</p>
                     @enderror
                 </fieldset>
+                <fieldset class="fieldset">
+                    <legend class="fieldset-legend">{{ __('Slug') }}</legend>
+                    <input required type="text" class="w-full validator input" name="slug"
+                        placeholder="{{ __('Type here') }}" value="{{ old('slug') }}" />
+                    <p class="label">{{ __('Required') }}</p>
+                    @error('slug')
+                        <p class="text-sm text-error">{{ $message }}</p>
+                    @enderror
+                </fieldset>
+                <fieldset class="fieldset">
+                    <legend class="fieldset-legend">{{ __('Title placeholder') }}</legend>
+                    <input required type="text" class="w-full validator input" name="title_placeholder"
+                        placeholder="{{ __('Type here') }}" value="{{ old('title_placeholder') }}" />
+                    <p class="label">{{ __('Required') }}</p>
+                    @error('title_placeholder')
+                        <p class="text-sm text-error">{{ $message }}</p>
+                    @enderror
+                </fieldset>
+                <fieldset class="fieldset">
+                    <legend class="fieldset-legend">{{ __('Desc placeholder') }}</legend>
+                    <input required type="text" class="w-full validator input" name="desc_placeholder"
+                        placeholder="{{ __('Type here') }}" value="{{ old('desc_placeholder') }}" />
+                    <p class="label">{{ __('Required') }}</p>
+                    @error('desc_placeholder')
+                        <p class="text-sm text-error">{{ $message }}</p>
+                    @enderror
+                </fieldset>
             </form>
             <div class="modal-action">
                 <button form="add_category_form" class="btn btn-primary">{{ __('Create') }}</button>
@@ -95,9 +124,37 @@
                     <fieldset class="fieldset">
                         <legend class="fieldset-legend">{{ __('Name') }}</legend>
                         <input required type="text" class="w-full validator input" name="name"
-                            value="{{ $category->name }}" placeholder="{{ __('Type here') }}" />
+                            value="{{ $category->name ?? old('name') }}" placeholder="{{ __('Type here') }}" />
                         <p class="label">{{ __('Required') }}</p>
                         @error('name')
+                            <p class="text-sm text-error">{{ $message }}</p>
+                        @enderror
+                    </fieldset>
+
+                    <fieldset class="fieldset">
+                        <legend class="fieldset-legend">{{ __('Slug') }}</legend>
+                        <input required type="text" class="w-full validator input" name="slug"
+                            placeholder="{{ __('Type here') }}" value="{{ $category->slug ?? old('slug') }}" />
+                        <p class="label">{{ __('Required') }}</p>
+                        @error('slug')
+                            <p class="text-sm text-error">{{ $message }}</p>
+                        @enderror
+                    </fieldset>
+                    <fieldset class="fieldset">
+                        <legend class="fieldset-legend">{{ __('Title placeholder') }}</legend>
+                        <input required type="text" class="w-full validator input" name="title_placeholder"
+                            placeholder="{{ __('Type here') }}" value="{{ $category->title_placeholder ?? old('title_placeholder') }}" />
+                        <p class="label">{{ __('Required') }}</p>
+                        @error('title_placeholder')
+                            <p class="text-sm text-error">{{ $message }}</p>
+                        @enderror
+                    </fieldset>
+                    <fieldset class="fieldset">
+                        <legend class="fieldset-legend">{{ __('Desc placeholder') }}</legend>
+                        <input required type="text" class="w-full validator input" name="desc_placeholder"
+                            placeholder="{{ __('Type here') }}" value="{{ $category->desc_placeholder ?? old('desc_placeholder') }}" />
+                        <p class="label">{{ __('Required') }}</p>
+                        @error('desc_placeholder')
                             <p class="text-sm text-error">{{ $message }}</p>
                         @enderror
                     </fieldset>

@@ -16,6 +16,18 @@
                 @enderror
             </fieldset>
 
+            {{-- Turnstile Captcha --}}
+            {{-- This component will handle the Turnstile captcha --}}
+            {{-- show turnstile captcha when env is production --}}
+            @if (config('app.env') === 'production')
+                <div class="flex flex-col items-center justify-center mt-4">
+                    <x-turnstile />
+                    @error('cf-turnstile-response')
+                        <p class="text-sm text-error">{{ $message }}</p>
+                    @enderror
+                </div>
+            @endif
+
             <button type="submit" class="w-full mt-6 btn btn-primary">
                 {{ __('Check Status') }}
             </button>

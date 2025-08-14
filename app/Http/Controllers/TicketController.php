@@ -41,6 +41,9 @@ class TicketController extends Controller
         if (config('app.env') === 'production') {
             $request->validate([
                 'cf-turnstile-response' => ['required', 'turnstile'],
+            ], [
+                'cf-turnstile-response.required' => Lang::get('Please complete the Turnstile captcha.'),
+                'cf-turnstile-response.turnstile' => Lang::get('Turnstile validation failed. Please try again.'),
             ]);
         } else {
             // Skip Turnstile validation in non-production environments
@@ -70,7 +73,7 @@ class TicketController extends Controller
 
             $fullpath = Storage::disk($disk)->path($path);
 
-            $fileName = 'attachments/'.$ticket->code.'-'.Str::slug($ticket->title).'-'.time().'.'.pathinfo($fullpath, PATHINFO_EXTENSION);
+            $fileName = 'attachments/' . $ticket->code . '-' . Str::slug($ticket->title) . '-' . time() . '.' . pathinfo($fullpath, PATHINFO_EXTENSION);
 
             // Pindahkan file ke storage/app/public/attachments
             $res = Storage::disk('public')->putFileAs('', $fullpath, $fileName);
@@ -99,7 +102,7 @@ class TicketController extends Controller
             Mail::to($agent->email)->send(new TicketNotificationToAgent($ticket, $agent->name));
         }
 
-        return redirect()->route('ticket.create')->with('success', Lang::get('Ticket created successfully! Your Ticket Code: ').$ticket->code);
+        return redirect()->route('ticket.create')->with('success', Lang::get('Ticket created successfully! Your Ticket Code: ') . $ticket->code);
     }
 
     public function check($code)

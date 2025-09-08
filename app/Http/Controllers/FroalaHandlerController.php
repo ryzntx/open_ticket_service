@@ -9,6 +9,9 @@ class FroalaHandlerController extends Controller
 {
     public function uploadImage(Request $request)
     {
+        $this->validate($request, [
+            'file' => 'required|image|max:2048|mimes:png,jpg' // max 2MB
+        ]);
         if ($request->hasFile('file')) {  // Froala kirim dengan key 'file'
             $path = $request->file('file')->store('reply', 'public');
 

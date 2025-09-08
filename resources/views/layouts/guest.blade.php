@@ -63,7 +63,7 @@
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             // Fetch placeholder for title and description based on category selection on page load
             const categorySelect = document.getElementById('category_id');
             if (categorySelect) {
@@ -99,7 +99,7 @@
             }
 
             // Listener for category selection change
-            categorySelect.addEventListener('change', function () {
+            categorySelect.addEventListener('change', function() {
                 const selectedCategoryId = this.value;
                 if (selectedCategoryId) {
                     // fetch category placeholder
@@ -182,6 +182,41 @@
             labelButtonUndoItemProcessing: '{{ __('Undo') }}',
             labelButtonRetryItemProcessing: '{{ __('Retry') }}',
             labelButtonProcessItem: '{{ __('Upload') }}',
+        });
+
+        // initialize  froala editor
+        new FroalaEditor('textarea#description', {
+            pluginsEnabled: ['align'], // disable all plugins
+            toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|',
+                'fontFamily', 'fontSize', 'color', 'inlineStyle', 'paragraphStyle', '|', 'paragraphFormat',
+                'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '-', 'insertLink', 'insertImage',
+                'insertVideo', 'insertFile', 'insertTable', '|', 'emoticons', 'specialCharacters', 'insertHR',
+                '|', 'clearFormatting', 'print', 'help', 'html', '|', 'undo', 'redo'
+            ],
+            heightMin: 200,
+            heightMax: 400,
+            imageUploadURL: '/froala/upload-image', // route untuk upload
+            imageUploadMethod: 'POST',
+            requestHeaders: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            imageAllowedTypes: ['jpeg', 'jpg', 'png', 'gif'],
+            imageMaxSize: 5 * 1024 * 1024, // 5MB
+            imageManagerDeleteURL: "/froala/delete-image", // route delete
+            events: {
+                'image.removed': function($img) {
+                    fetch('/froala/delete-image', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            src: $img.attr('src')
+                        })
+                    });
+                }
+            }
         });
     </script>
 

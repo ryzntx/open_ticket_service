@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-base-content">
             {{ __('Artisan Command Runner') }}
@@ -160,5 +160,4 @@
             </ul>
         </div>
     </div>
-    <script></script>
-</x-guest-layout>
+</x-app-layout>

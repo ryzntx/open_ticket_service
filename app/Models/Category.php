@@ -8,6 +8,9 @@ class Category extends Model
 {
     protected $fillable = [
         'name',
+        'slug',
+        'title_placeholder',
+        'desc_placeholder'
     ];
 
     public function tickets()

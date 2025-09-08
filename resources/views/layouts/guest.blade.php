@@ -62,6 +62,77 @@
 
     </footer>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Fetch placeholder for title and description based on category selection on page load
+            const categorySelect = document.getElementById('category_id');
+            if (categorySelect) {
+                const selectedCategoryId = categorySelect.value;
+                if (selectedCategoryId) {
+                    // fetch category placeholder
+                    fetch(`/api/categories/${selectedCategoryId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            // Update the title field with the category placeholder
+                            const titleField = document.getElementById('title');
+                            titleField.placeholder = data.data.title_placeholder || '';
+                            // Update the description field with the category placeholder
+                            const descriptionField = document.getElementById('description');
+                            descriptionField.placeholder = data.data.desc_placeholder || '';
+                        })
+                        .catch(error => {
+                            console.error('Error fetching category placeholder:', error);
+                            // Reset the title and description fields if there's an error
+                            const titleField = document.getElementById('title');
+                            titleField.placeholder = '';
+                            const descriptionField = document.getElementById('description');
+                            descriptionField.placeholder = '';
+                        });
+                } else {
+                    // Reset the title field if no category is selected
+                    const titleField = document.getElementById('title');
+                    titleField.placeholder = '';
+                    // Reset the description field if no category is selected
+                    const descriptionField = document.getElementById('description');
+                    descriptionField.placeholder = '';
+                }
+            }
+
+            // Listener for category selection change
+            categorySelect.addEventListener('change', function () {
+                const selectedCategoryId = this.value;
+                if (selectedCategoryId) {
+                    // fetch category placeholder
+                    fetch(`/api/categories/${selectedCategoryId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            // Update the title field with the category placeholder
+                            const titleField = document.getElementById('title');
+                            titleField.placeholder = data.data.title_placeholder || '';
+                            // Update the description field with the category placeholder
+                            const descriptionField = document.getElementById('description');
+                            descriptionField.placeholder = data.data.desc_placeholder || '';
+                        })
+                        .catch(error => {
+                            console.error('Error fetching category placeholder:', error);
+                            // Reset the title and description fields if there's an error
+                            const titleField = document.getElementById('title');
+                            titleField.placeholder = '';
+                            const descriptionField = document.getElementById('description');
+                            descriptionField.placeholder = '';
+                        });
+                } else {
+                    // Reset the title field if no category is selected
+                    const titleField = document.getElementById('title');
+                    titleField.placeholder = '';
+                    // Reset the description field if no category is selected
+                    const descriptionField = document.getElementById('description');
+                    descriptionField.placeholder = '';
+                }
+            });
+        });
+    </script>
+
     <script type="module">
         // Initialize FilePond on the file input element
         const inputElement = document.querySelector('.filepond');

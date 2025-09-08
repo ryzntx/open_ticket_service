@@ -97,7 +97,8 @@ return [
 
     'middleware' => [
         'web',
-        'isAdmin',
+        'auth',
+        \App\Http\Middleware\IsAdmin::class,
         \Opcodes\LogViewer\Http\Middleware\AuthorizeLogViewer::class,
     ],
 
@@ -131,6 +132,7 @@ return [
         'local' => [
             'name' => ucfirst(env('APP_ENV', 'local')),
         ],
+        
 
         // 'staging' => [
         //     'name' => 'Staging',

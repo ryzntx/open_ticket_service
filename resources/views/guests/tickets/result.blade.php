@@ -26,7 +26,7 @@
                     <div class="p-3 mb-2 bg-gray-100 rounded">
                         <p class="text-sm text-gray-600"><strong>{{ $reply->user->name }}</strong> -
                             {{ $reply->created_at->format('d M Y H:i') }}</p>
-                        <p class="mt-1">{{ $reply->message }}</p>
+                        <p class="mt-1">{!! $reply->message !!}</p>
                     </div>
                 @endforeach
             @endif

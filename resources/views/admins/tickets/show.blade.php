@@ -103,7 +103,7 @@
                                             <time
                                                 class="text-xs opacity-50">{{ $feedback->created_at->diffForHumans() }}</time>
                                         </div>
-                                        <div class="chat-bubble">{{ $feedback->message }}</div>
+                                        <div class="chat-bubble">{!! $feedback->message !!}</div>
                                         {{-- <div class="opacity-50 chat-footer"></div> --}}
                                     </div>
                                 @endforeach

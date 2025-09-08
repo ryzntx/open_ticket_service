@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoriesManagementController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FroalaHandlerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\TicketManagementController;
@@ -54,3 +55,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
 
     require __DIR__ . '/auth.php';
 });
+
+Route::post('/froala/upload-image', [FroalaHandlerController::class, 'uploadImage'])->name('froala.upload');
+Route::post('/froala/delete-image', [FroalaHandlerController::class, 'deleteImage'])->name('froala.delete');

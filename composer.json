@@ -11,6 +11,7 @@
     "require": {
         "php": "^8.2",
         "barryvdh/laravel-translation-manager": "^0.6.8",
+        "froala/wysiwyg-editor-php-sdk": "*",
         "hlacos/deepl-api-translator": "dev-main",
         "laravel-lang/common": "^6.7",
         "laravel/framework": "^12.0",

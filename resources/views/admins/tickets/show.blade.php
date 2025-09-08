@@ -62,8 +62,7 @@
 
                         <fieldset class="fieldset">
                             <legend class="fieldset-legend">{{ __('Problem Description') }}</legend>
-                            <textarea readonly name="description" id="description" class="w-full h-24 textarea"
-                                placeholder="{{ __("Example: Hello, I'am Rina Maharani - A1A250001, cannot log in to SIAKAD since yesterday. Error message: 'User not found'. Please help.") }}">{!! $ticket->description !!}</textarea>
+                            <pre class="p-4 overflow-x-auto text-sm bg-gray-100 rounded-lg"><code>{!! $ticket->description !!}</code></pre>
                         </fieldset>
                     </div>
                     <div class="flex flex-col gap-6">

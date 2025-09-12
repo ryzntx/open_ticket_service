@@ -53,12 +53,21 @@ class TicketController extends Controller
         // Generate kode tiket unik (ex: 2025080100500001)
         $codeTicket = Ticket::generateTicketCode($request->category_id);
 
+        $description = $request->description;
+
+        // hapus tag <p ...>Powered by Froala Editor</p>
+        $description = preg_replace(
+            '/<p[^>]*>.*?Froala Editor.*?<\/p>/i',
+            '',
+            $description
+        );
+
         $ticket = Ticket::create([
             'code' => $codeTicket,
             'sender_name' => $request->sender_name,
             'sender_email' => $request->sender_email,
             'title' => $request->title,
-            'description' => $request->description,
+            'description' => $description,
             'category_id' => $request->category_id,
             'priority' => $request->priority,
         ]);

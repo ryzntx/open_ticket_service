@@ -89,7 +89,7 @@
         <div class="divider"></div>
 
         <div class="section-title">Deskripsi Masalah:</div>
-        <p style="white-space: pre-line;">{{ $ticket->description }}</p>
+        <p style="white-space: pre-line;">{!! $ticket->description !!}</p>
 
         <div class="section-title">Pesan Balasan:</div>
         <div class="quote">

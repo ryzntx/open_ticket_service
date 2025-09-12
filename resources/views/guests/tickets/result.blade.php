@@ -8,7 +8,7 @@
             <p><strong>{{ __('Category') }}:</strong> {{ $ticket->category->name }}</p>
             <p><strong>{{ __('Priority') }}:</strong> {{ ucfirst($ticket->priority) }}</p>
             <p><strong>{{ __('Sender') }}:</strong> {{ $ticket->sender_name }} ({{ $ticket->sender_email }})</p>
-            <p><strong>{{ __('Description') }}:</strong><br>{{ $ticket->description }}</p>
+            <p><strong>{{ __('Description') }}:</strong><br>{!! $ticket->description !!}</p>
 
             @if ($ticket->attachments->count())
                 <p><strong>{{ __('Attachments') }}:</strong><br>

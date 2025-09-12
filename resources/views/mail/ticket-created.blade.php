@@ -80,7 +80,7 @@
         <div class="divider"></div>
 
         <div class="section-title">Deskripsi Masalah:</div>
-        <p style="white-space: pre-line;">{{ $ticket->description }}</p>
+        <p style="white-space: pre-line;">{!! $ticket->description !!}</p>
 
         @if (!empty($ticket->attachments) && count($ticket->attachments) > 0)
             <div class="section-title">Lampiran:</div>

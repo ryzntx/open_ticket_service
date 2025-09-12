@@ -33,6 +33,17 @@ class QuickReplyController extends Controller
             'message' => 'required|string',
         ]);
 
+        $message = $request->message;
+
+        // hapus tag <p ...>Powered by Froala Editor</p>
+        $message = preg_replace(
+            '/<p[^>]*>.*?Froala Editor.*?<\/p>/i',
+            '',
+            $message
+        );
+
+        $request->merge(['message' => $message]);
+
         \App\Models\QuickReply::create($request->only('title', 'message'));
 
         return redirect()->route('admin.quick-replies.index')->with('success', __('Quick reply created successfully.'));
@@ -72,6 +83,17 @@ class QuickReplyController extends Controller
             'title' => 'required|string|max:255',
             'message' => 'required|string',
         ]);
+
+        $message = $request->message;
+
+        // hapus tag <p ...>Powered by Froala Editor</p>
+        $message = preg_replace(
+            '/<p[^>]*>.*?Froala Editor.*?<\/p>/i',
+            '',
+            $message
+        );
+
+        $request->merge(['message' => $message]);
 
         $quickReply = \App\Models\QuickReply::findOrFail($id);
         $quickReply->update($request->only('title', 'message'));

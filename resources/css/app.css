@@ -16,3 +16,9 @@
     themes: light --default, dark;
 }
 
+
+a[href*="froala.com"],
+p[data-f-id="pbf"],
+div[style*="froala.com"] {
+    display: none !important;
+}

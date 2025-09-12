@@ -111,17 +111,6 @@
         });
     </script>
 
-    <script>
-        const observer = new MutationObserver(() => {
-            document.querySelectorAll('div[style*="froala.com"], a[href*="froala.com"], p[data-f-id="pbf"]')
-                .forEach(el => el.remove());
-        });
-        observer.observe(document.body, {
-            childList: true,
-            subtree: true
-        });
-    </script>
-
 </body>
 
 </html>

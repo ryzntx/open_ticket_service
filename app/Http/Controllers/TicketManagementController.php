@@ -114,11 +114,11 @@ class TicketManagementController extends Controller
         $message = $request->message;
 
         // hapus tag <p ...>Powered by Froala Editor</p>
-        $message = preg_replace(
-            '/<p[^>]*>.*?Froala Editor.*?<\/p>/i',
-            '',
-            $message
-        );
+        // $message = preg_replace(
+        //     '/<p[^>]*>.*?Froala Editor.*?<\/p>/i',
+        //     '',
+        //     $message
+        // );
 
         try {
             $reply = TicketReply::create([

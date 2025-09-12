@@ -21,7 +21,8 @@
         "@alpinejs/focus": "^3.14.9",
         "alpine-tailwind-lightbox": "^1.1.0",
         "filepond": "^4.32.8",
-        "froala-editor": "^4.6.2",
+        "jquery": "^3.7.1",
+        "summernote": "^0.9.1",
         "tom-select": "^2.4.3"
     }
 }

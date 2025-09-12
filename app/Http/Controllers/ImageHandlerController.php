@@ -52,9 +52,10 @@ class ImageHandlerController extends Controller
             $path = $image->storeAs('images', $imageName, 'public');
 
             // Return the URL for TinyMCE
-            return response()->json([
-                'location' => Storage::url($path)
-            ]);
+            return asset('storage/' . $path);
+            // return response()->json([
+            //     'location' => Storage::url($path)
+            // ]);
         }
 
         return response()->json(['error' => 'No file uploaded'], 400);

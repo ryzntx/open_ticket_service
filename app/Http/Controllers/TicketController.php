@@ -56,11 +56,11 @@ class TicketController extends Controller
         $description = $request->description;
 
         // hapus tag <p ...>Powered by Froala Editor</p>
-        $description = preg_replace(
-            '/<p[^>]*>.*?Froala Editor.*?<\/p>/i',
-            '',
-            $description
-        );
+        // $description = preg_replace(
+        //     '/<p[^>]*>.*?Froala Editor.*?<\/p>/i',
+        //     '',
+        //     $description
+        // );
 
         $ticket = Ticket::create([
             'code' => $codeTicket,

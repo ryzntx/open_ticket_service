@@ -305,51 +305,40 @@
         });
 
         // initialize  froala editor
-        new FroalaEditor('textarea#description', {
-            pluginsEnabled: ['align'], // disable all plugins
-            toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|',
-                'fontFamily', 'fontSize', 'color', 'inlineStyle', 'paragraphStyle', '|', 'paragraphFormat',
-                'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '-', 'insertLink', 'insertImage',
-                'insertVideo', 'insertFile', 'insertTable', '|', 'emoticons', 'specialCharacters', 'insertHR',
-                '|', 'clearFormatting', 'print', 'help', 'html', '|', 'undo', 'redo'
-            ],
-            heightMin: 200,
-            heightMax: 400,
-            imageUploadURL: '/froala/upload-image', // route untuk upload
-            imageUploadMethod: 'POST',
-            requestHeaders: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            imageAllowedTypes: ['jpeg', 'jpg', 'png', 'gif'],
-            imageMaxSize: 5 * 1024 * 1024, // 5MB
-            imageManagerDeleteURL: "/froala/delete-image", // route delete
-            events: {
-                'image.removed': function($img) {
-                    fetch('/froala/delete-image', {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            src: $img.attr('src')
-                        })
-                    });
-                }
-            }
-        });
-
-        const observer = new MutationObserver(() => {
-            document.querySelectorAll('div[style*="froala.com"], a[href*="froala.com"], p[data-f-id="pbf"]')
-                .forEach(el => el.remove());
-        });
-        observer.observe(document.body, {
-            childList: true,
-            subtree: true
-        });
     </script>
 
+    <script type="module">
+        $(document).ready(function() {
+            $('#description').summernote({
+                placeholder: 'Tulis konten di sini...',
+                tabsize: 2,
+                height: 200,
+                callbacks: {
+                    onImageUpload: function(files) {
+                        let editor = $(this);
+                        let data = new FormData();
+                        data.append("file", files[0]);
+                        data.append("_token", "{{ csrf_token() }}");
 
+                        $.ajax({
+                            url: "{{ route('upload.image') }}",
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            data: data,
+                            type: "POST",
+                            success: function(url) {
+                                editor.summernote("insertImage", url);
+                            },
+                            error: function(data) {
+                                console.log(data);
+                            }
+                        });
+                    }
+                }
+            });
+        });
+    </script>
 
 </body>
 

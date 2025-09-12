@@ -1,18 +1,15 @@
+import $ from 'jquery';
+window.$ = $;
+window.jQuery = $;
+
 import axios from 'axios';
 import TomSelect from 'tom-select';
 
 import 'tom-select/dist/css/tom-select.css';
 
-// froala editor
-import FroalaEditor from 'froala-editor';
-import 'froala-editor/css/froala_editor.min.css';
-
-// froala plugins
-import 'froala-editor/js/plugins/align.min.js';
-// image
-import 'froala-editor/js/plugins/image.min.js';
-
-window.FroalaEditor = FroalaEditor;
+// Summernote Editor
+import 'summernote/dist/summernote-lite.min.js';
+import 'summernote/dist/summernote-lite.min.css';
 
 window.axios = axios;
 

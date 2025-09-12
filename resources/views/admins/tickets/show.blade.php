@@ -184,15 +184,15 @@
                 fetch(`/admin/quick-replies/${selectedReplyId}`)
                     .then(response => response.json())
                     .then(data => {
-                        // set html content froala editor
-                        new FroalaEditor('#message').html.set(data.message);
+                        // set html content summernote editor
+                        $('#message').summernote('code', data.message);
                     })
                     .catch(error => {
                         console.error('Error fetching quick reply:', error);
                     });
             } else {
                 // Clear the message textarea if no quick reply is selected
-                new FroalaEditor('#message').html.set('');
+                $('#message').summernote('code', '');
             }
         });
     </script>

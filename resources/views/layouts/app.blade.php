@@ -141,6 +141,34 @@
                     }
                 }
             });
+            $('#message_edit').summernote({
+                placeholder: 'Tulis konten di sini...',
+                tabsize: 2,
+                height: 200,
+                callbacks: {
+                    onImageUpload: function(files) {
+                        let editor = $(this);
+                        let data = new FormData();
+                        data.append("file", files[0]);
+                        data.append("_token", "{{ csrf_token() }}");
+
+                        $.ajax({
+                            url: "{{ route('upload.image') }}",
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            data: data,
+                            type: "POST",
+                            success: function(url) {
+                                editor.summernote("insertImage", url);
+                            },
+                            error: function(data) {
+                                console.log(data);
+                            }
+                        });
+                    }
+                }
+            });
         });
     </script>
 

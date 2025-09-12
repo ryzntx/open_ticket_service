@@ -114,7 +114,7 @@
                     </fieldset>
                     <fieldset class="fieldset">
                         <legend class="fieldset-legend">{{ __('Message') }}</legend>
-                        <textarea required class="w-full validator input" id="message" name="message" placeholder="{{ __('Type here') }}"
+                        <textarea required class="w-full validator input" id="message_edit" name="message" placeholder="{{ __('Type here') }}"
                             row="3">{!! $replies->message ?? old('message') !!}</textarea>
                         <p class="label">{{ __('Required') }}</p>
                         @error('message')

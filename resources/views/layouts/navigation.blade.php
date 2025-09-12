@@ -78,6 +78,9 @@
                             <x-nav-link :href="route('admin.categories.index')" :active="request()->routeIs('admin.categories.index')">
                                 {{ __('Category Management') }}
                             </x-nav-link>
+                            <x-nav-link :href="route('admin.quick-replies.index')" :active="request()->routeIs('admin.quick-replies.index')">
+                                {{ __('Quick Reply Management') }}
+                            </x-nav-link>
                             <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')">
                                 {{ __('Users Management') }}
                             </x-nav-link>
@@ -211,6 +214,9 @@
                 @if (auth()->user()->role == 'admin')
                     <x-responsive-nav-link :href="route('admin.categories.index')" :active="request()->routeIs('admin.categories.index')">
                         {{ __('Category Management') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('admin.quick-replies.index')" :active="request()->routeIs('admin.quick-replies.index')">
+                        {{ __('Quick Reply Management') }}
                     </x-responsive-nav-link>
                     <x-responsive-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')">
                         {{ __('Users Management') }}

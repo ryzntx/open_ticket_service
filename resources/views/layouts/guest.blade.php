@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Sistem Tiket') }}</title>
 
     {{-- Tailwind via Vite --}}
@@ -14,6 +15,9 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
     @turnstileScripts()
+
+    <script src="https://cdn.tiny.cloud/1/mxcxsw1v49fhk1dmja3wumdzsf58cljq98k7g5u27avw8bee/tinymce/8/tinymce.min.js"
+        referrerpolicy="origin" crossorigin="anonymous"></script>
 </head>
 
 <body class="min-h-screen font-sans antialiased bg-base-100">
@@ -133,6 +137,122 @@
         });
     </script>
 
+    {{-- <script>
+        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        tinymce.init({
+            selector: 'textarea#description', // Replace this CSS selector to match the placeholder element for TinyMCE
+            menubar: false,
+            plugins: [
+                'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                'insertdatetime', 'media', 'table', 'wordcount'
+            ],
+            toolbar: 'undo redo | blocks | ' +
+                'bold italic backcolor | alignleft aligncenter ' +
+                'alignright alignjustify | bullist numlist outdent indent | ' +
+                'removeformat | image ',
+            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+
+            // Image upload configuration for TinyMCE v8
+            images_upload_handler: function(blobInfo, progress) {
+                return new Promise((resolve, reject) => {
+                    const xhr = new XMLHttpRequest();
+                    const formData = new FormData();
+
+                    xhr.withCredentials = false;
+                    xhr.open('POST', '{{ route('upload.image') }}');
+
+                    // Add CSRF token to headers
+                    xhr.setRequestHeader('X-CSRF-TOKEN', token);
+
+                    xhr.upload.onprogress = (e) => {
+                        progress(e.loaded / e.total * 100);
+                    };
+
+                    xhr.onload = function() {
+                        if (xhr.status === 403) {
+                            reject({
+                                message: 'HTTP Error: ' + xhr.status,
+                                remove: true
+                            });
+                            return;
+                        }
+
+                        if (xhr.status < 200 || xhr.status >= 300) {
+                            reject('HTTP Error: ' + xhr.status);
+                            return;
+                        }
+
+                        const json = JSON.parse(xhr.responseText);
+
+                        if (!json || typeof json.location !== 'string') {
+                            reject('Invalid JSON: ' + xhr.responseText);
+                            return;
+                        }
+
+                        resolve(json.location);
+                    };
+
+                    xhr.onerror = function() {
+                        reject('Image upload failed due to a XHR Transport error. Code: ' + xhr
+                            .status);
+                    };
+
+                    formData.append('file', blobInfo.blob(), blobInfo.filename());
+                    xhr.send(formData);
+                });
+            },
+
+            // Additional image options
+            image_advtab: true,
+            image_title: true,
+            automatic_uploads: true,
+            file_picker_types: 'image',
+
+            // Updated file picker for TinyMCE v8
+            file_picker_callback: function(callback, value, meta) {
+                if (meta.filetype === 'image') {
+                    const input = document.createElement('input');
+                    input.setAttribute('type', 'file');
+                    input.setAttribute('accept', 'image/*');
+
+                    input.addEventListener('change', function(e) {
+                        const file = e.target.files[0];
+                        if (!file) return;
+
+                        const formData = new FormData();
+                        formData.append('file', file);
+
+                        // Using XMLHttpRequest instead of fetch for better compatibility
+                        const xhr = new XMLHttpRequest();
+                        xhr.open('POST', '{{ route('upload.image') }}');
+                        xhr.setRequestHeader('X-CSRF-TOKEN', token);
+
+                        xhr.onload = function() {
+                            if (xhr.status === 200) {
+                                const data = JSON.parse(xhr.responseText);
+                                callback(data.location, {
+                                    alt: file.name
+                                });
+                            } else {
+                                alert('Upload failed');
+                            }
+                        };
+
+                        xhr.onerror = function() {
+                            alert('Upload failed');
+                        };
+
+                        xhr.send(formData);
+                    });
+
+                    input.click();
+                }
+            }
+        });
+    </script> --}}
+
     <script type="module">
         // Initialize FilePond on the file input element
         const inputElement = document.querySelector('.filepond');
@@ -219,6 +339,18 @@
             }
         });
     </script>
+
+    <script>
+        const observer = new MutationObserver(() => {
+            document.querySelectorAll('div[style*="froala.com"], a[href*="froala.com"], p[data-f-id="pbf"]')
+                .forEach(el => el.remove());
+        });
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    </script>
+
 
 </body>
 

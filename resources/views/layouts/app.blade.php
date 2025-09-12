@@ -14,6 +14,8 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="https://cdn.tiny.cloud/1/mxcxsw1v49fhk1dmja3wumdzsf58cljq98k7g5u27avw8bee/tinymce/8/tinymce.min.js"
+        referrerpolicy="origin" crossorigin="anonymous"></script>
 </head>
 
 <body class="font-sans antialiased">
@@ -108,6 +110,18 @@
             }
         });
     </script>
+
+    <script>
+        const observer = new MutationObserver(() => {
+            document.querySelectorAll('div[style*="froala.com"], a[href*="froala.com"], p[data-f-id="pbf"]')
+                .forEach(el => el.remove());
+        });
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    </script>
+
 </body>
 
 </html>

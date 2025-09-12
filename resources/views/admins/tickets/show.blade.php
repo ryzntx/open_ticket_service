@@ -132,6 +132,15 @@
             <form action="{{ route('admin.tickets.reply', $ticket->id) }}" method="post" id="reply_form">
                 @csrf
                 <fieldset class="fieldset">
+                    <legend class="fieldset-legend">{{ __('Select Quick Reply') }}</legend>
+                    <select id="quick_reply_select" class="w-full select select-bordered">
+                        <option value="">{{ __('-- Select Quick Reply --') }}</option>
+                        @foreach ($quick_replies as $reply)
+                            <option value="{{ $reply->id }}">{{ $reply->title }}</option>
+                        @endforeach
+                    </select>
+                </fieldset>
+                <fieldset class="fieldset">
                     <legend class="fieldset-legend">{{ __('Message') }}</legend>
                     <textarea required name="message" id="message" class="w-full h-24 textarea validator"
                         placeholder="{{ __('Example: Hello, thank you for contacting us...') }}"></textarea>
@@ -163,4 +172,28 @@
             </div>
         </div>
     </dialog>
+
+    <script>
+        const quickReplySelect = document.getElementById('quick_reply_select');
+        const messageTextarea = document.getElementById('message');
+
+        quickReplySelect.addEventListener('change', function() {
+            const selectedReplyId = this.value;
+
+            if (selectedReplyId) {
+                fetch(`/admin/quick-replies/${selectedReplyId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // set html content froala editor
+                        new FroalaEditor('#message').html.set(data.message);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching quick reply:', error);
+                    });
+            } else {
+                // Clear the message textarea if no quick reply is selected
+                new FroalaEditor('#message').html.set('');
+            }
+        });
+    </script>
 </x-app-layout>

@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoriesManagementController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FroalaHandlerController;
+use App\Http\Controllers\ImageHandlerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\TicketManagementController;
@@ -40,6 +41,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         // Category management routes
         Route::resource('categories', CategoriesManagementController::class)->middleware('isAdmin')->names('admin.categories');
 
+        // Quick Reply management routes
+        Route::resource('quick-replies', \App\Http\Controllers\QuickReplyController::class)->middleware('isAdmin')->names('admin.quick-replies');
+
         // Ticket management routes
         Route::resource('tickets', TicketManagementController::class)->names('admin.tickets');
         Route::post('tickets/{ticket}/reply', [TicketManagementController::class, 'reply'])->name('admin.tickets.reply');
@@ -56,5 +60,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
     require __DIR__ . '/auth.php';
 });
 
-Route::post('/froala/upload-image', [FroalaHandlerController::class, 'uploadImage'])->name('froala.upload');
-Route::post('/froala/delete-image', [FroalaHandlerController::class, 'deleteImage'])->name('froala.delete');
+Route::post('/froala/upload-image', [ImageHandlerController::class, 'uploadImage'])->name('froala.upload');
+Route::post('/froala/delete-image', [ImageHandlerController::class, 'deleteImage'])->name('froala.delete');
+Route::post('/upload-image', [ImageHandlerController::class, 'upload'])->name('upload.image');

@@ -75,8 +75,9 @@ class TicketManagementController extends Controller
     public function show(string $id)
     {
         $ticket = Ticket::with(['category', 'attachments', 'replies.user'])->findOrFail($id);
+        $quick_replies = \App\Models\QuickReply::all();
 
-        return view('admins.tickets.show', compact('ticket'));
+        return view('admins.tickets.show', compact('ticket', 'quick_replies'));
     }
 
     /**
@@ -110,12 +111,20 @@ class TicketManagementController extends Controller
         ]);
 
         $ticket = Ticket::findOrFail($id);
+        $message = $request->message;
+
+        // hapus tag <p ...>Powered by Froala Editor</p>
+        $message = preg_replace(
+            '/<p[^>]*>.*?Froala Editor.*?<\/p>/i',
+            '',
+            $message
+        );
 
         try {
             $reply = TicketReply::create([
                 'ticket_id' => $id,
                 'user_id' => auth()->user()->id,
-                'message' => $request->message,
+                'message' => $message,
             ]);
 
             $ticket->update(['status' => 'in_progress']); // Update ticket status to in_progress

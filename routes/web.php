@@ -42,7 +42,11 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         Route::resource('categories', CategoriesManagementController::class)->middleware('isAdmin')->names('admin.categories');
 
         // Quick Reply management routes
-        Route::resource('quick-replies', \App\Http\Controllers\QuickReplyController::class)->middleware('isAdmin')->names('admin.quick-replies');
+        Route::resource('quick-replies', \App\Http\Controllers\QuickReplyController::class, [
+            'except' => ['show']
+        ])->middleware('isAdmin')->names('admin.quick-replies');
+
+        Route::get('quick-replies/{id}', [\App\Http\Controllers\QuickReplyController::class, 'show'])->name('admin.quick-replies.search');
 
         // Ticket management routes
         Route::resource('tickets', TicketManagementController::class)->names('admin.tickets');

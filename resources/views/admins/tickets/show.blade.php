@@ -25,7 +25,8 @@
                             <fieldset class="fieldset">
                                 <legend class="fieldset-legend">{{ __('Sender Name') }}</legend>
                                 <input readonly type="text" class="w-full validator input" name="sender_name"
-                                    placeholder="{{ __('Type here') }}" value="{{ $ticket->sender_name }}" />
+                                    id="sender_name" placeholder="{{ __('Type here') }}"
+                                    value="{{ $ticket->sender_name }}" />
                             </fieldset>
 
                             <fieldset class="fieldset">
@@ -176,6 +177,7 @@
     <script>
         const quickReplySelect = document.getElementById('quick_reply_select');
         const messageTextarea = document.getElementById('message');
+        const nama = document.getElementById('sender_name');
 
         quickReplySelect.addEventListener('change', function() {
             const selectedReplyId = this.value;
@@ -184,6 +186,13 @@
                 fetch(`/admin/quick-replies/${selectedReplyId}`)
                     .then(response => response.json())
                     .then(data => {
+                        //check if data.message has ${nama}
+                        let message = data.message;
+                        if (message.includes('${nama}')) {
+                            message = message.replace(/\$\{nama\}/g, nama.value);
+                        }
+                        data.message = message;
+
                         // set html content summernote editor
                         $('#message').summernote('code', data.message);
                     })

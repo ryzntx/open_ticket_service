@@ -1,6 +1,7 @@
 (function () {
   const currentScript = document.currentScript;
-  const urlTujuan = currentScript.getAttribute("data-url") || "https://support.unsub.ac.id/ticket";
+  const urlTujuan = currentScript.getAttribute("data-url") || "https://support.unsub.ac.id/id/ticket";
+  const kategori = currentScript.getAttribute("data-category") || "";
 
 
   const button = document.createElement("div");
@@ -29,7 +30,7 @@
   button.title = "Butuh Bantuan ?";
 
   button.addEventListener("click", () => {
-    window.open(urlTujuan, "_blank");
+    window.open(urlTujuan+`?category=${kategori}`, "_blank");
   });
 
   document.body.appendChild(button);
